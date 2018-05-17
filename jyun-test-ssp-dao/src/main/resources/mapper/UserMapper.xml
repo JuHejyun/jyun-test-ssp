@@ -5,15 +5,22 @@
     t_user
   </sql>
 
+  <resultMap id="BaseResultMap" type="com.jyun.test.ssp.domain.UserDomain">
+    <id column="id" jdbcType="BIGINT" property="userId" />
+    <result column="name" jdbcType="VARCHAR" property="userName" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+  </resultMap>
+
   <sql id="BASE_COLUMN">
-    userId,userName,password,phone
+    id,name,password,phone
   </sql>
 
   <insert id="insert" parameterType="com.jyun.test.ssp.domain.UserDomain">
     INSERT INTO
       <include refid="BASE_TABLE"/>
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      userName,password,
+      name,password,
       <if test="phone != null">
         phone,
       </if>
@@ -26,7 +33,7 @@
     </trim>
   </insert>
 
-  <select id="selectUsers" resultType="com.jyun.test.ssp.domain.UserDomain">
+  <select id="selectUsers" resultMap="BaseResultMap">
       SELECT
         <include refid="BASE_COLUMN"/>
       FROM
